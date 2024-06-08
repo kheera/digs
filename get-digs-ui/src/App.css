@@ -1,0 +1,8 @@
+span.hidden-action {
+    display: none;
+}
+
+.show-hidden-action:hover span.hidden-action {
+    display: flex;
+    float: right;
+}
