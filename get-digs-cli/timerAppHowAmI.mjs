@@ -1,17 +1,18 @@
 import dotenv from 'dotenv';
-import { TaskManager } from './classes/TaskManager.mjs';
-import { dailyGoals } from "./functions/dailyGoals.mjs";
-import { inputLogFile } from './functions/inputLogFile.mjs';
-import { logActiveWindow } from "./functions/logActiveWindow.mjs";
-import { question } from './functions/question.mjs';
-import { renameTask } from "./functions/renameTask.mjs";
-import { reviewTaskLog } from "./functions/reviewTaskLog.mjs";
-import { reviewTasks } from "./functions/reviewTasks.mjs";
-import { showHoursForTask } from "./functions/showHoursForTask.mjs";
-import { takeScreenshot } from "./functions/takeScreenshot.mjs";
-import { reviewGoalsForTask } from "./functions/reviewGoalsForTask.mjs";
-import { chooseTask } from "./functions/chooseTask.mjs";
-import { manageTask } from "./classes/TaskManager.mjs";
+import { TaskManager } from '../get-digs-be/classes/TaskManager.mjs';
+import { dailyGoals } from "../get-digs-be/functions/dailyGoals.mjs";
+import { inputLogFile } from '../get-digs-be/functions/inputLogFile.mjs';
+import { logActiveWindow } from "../get-digs-be/functions/logActiveWindow.mjs";
+import { question } from '../get-digs-be/functions/question.mjs';
+import { renameTask } from "../get-digs-be/functions/renameTask.mjs";
+import { reviewTaskLog } from "../get-digs-be/functions/reviewTaskLog.mjs";
+import { reviewTasks } from "../get-digs-be/functions/reviewTasks.mjs";
+import { showHoursForTask } from "../get-digs-be/functions/showHoursForTask.mjs";
+import { takeScreenshot } from "../get-digs-be/functions/takeScreenshot.mjs";
+import { reviewGoalsForTask } from "../get-digs-be/functions/reviewGoalsForTask.mjs";
+import { chooseTask } from "../get-digs-be/functions/chooseTask.mjs";
+import { manageTask } from "../get-digs-be/classes/TaskManager.mjs";
+import path from "path";
 
 const activeWindowLog = 'active-window.log';
 const options = [
@@ -100,7 +101,7 @@ async function deleteTaskTimer(taskManager) {
 }
 
 async function main() {
-    dotenv.config();
+    dotenv.config({ path: path.resolve(process.cwd(), '../.env') });
     // sort options by label
     options.sort((a, b) => {
         if (a.labels && b.labels) {

@@ -1,19 +1,14 @@
-// const express = require('express')
-// const app = express()
-// const port = 3000
-// const dotenv = require('dotenv');
-
 import { TaskManager } from './classes/TaskManager.mjs';
 import express from 'express';
 import dotenv from 'dotenv';
 import cors from 'cors';
+import path from 'path';
 const port = 3001;
 const app = express();
 import { ApiRoutes } from './routes/ApiRoutes.js';
-
+dotenv.config({ path: path.resolve(process.cwd(), '../.env') });
 const taskManager = new TaskManager();
 taskManager.loadFromFile();
-dotenv.config();
 
 
 // enable cors from all same-origin domains

@@ -3,7 +3,17 @@ import { Task } from "./Task.mjs";
 import { chooseTask } from "../functions/chooseTask.mjs";
 import { question } from "../functions/question.mjs";
 
+function tasksDbFilename() {
+    console.log("Loading path: ", process.env.STORAGE);
+    let path = process.env.STORAGE;
+    if (!path.endsWith('/')) {
+        path += '/';
+    }
+    return `${path}data/tasksDB.json`
+}
+
 export async function manageTask(taskManager) {
+
     let task = await chooseTask(taskManager, "Choose a task to manage:");
 
     // offer to add a goal, start a timer, stop a timer, delete a timer, or delete a goal
@@ -93,7 +103,7 @@ export class TaskManager {
 
     async saveToFile() {
         try {
-            fs.writeFileSync('tasksDB.json', JSON.stringify(this.tasks), 'utf8');
+            fs.writeFileSync(tasksDbFilename(), JSON.stringify(this.tasks), 'utf8');
         } catch (err) {
             console.error("Error saving to file: ", err);
         }
@@ -102,7 +112,7 @@ export class TaskManager {
     async loadFromFile() {
         let loadedTasks = [];
         try {
-            const data = fs.readFileSync('tasksDB.json', 'utf8');
+            const data = fs.readFileSync(tasksDbFilename(), 'utf8');
             loadedTasks = JSON.parse(data);
         } catch (err) {
             console.error("Error loading from file: ", err);
