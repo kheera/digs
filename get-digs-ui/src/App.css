@@ -6,3 +6,7 @@ span.hidden-action {
     display: flex;
     float: right;
 }
+
+body p.no-margin-block-end {
+    margin-block-end: 0 !important;
+}

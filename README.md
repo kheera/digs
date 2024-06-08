@@ -10,10 +10,13 @@
 ## How to:
 
 * command line: 
+  * cd get-digs-cli
   * node timerAppHowAmI.mjs
 * UI:
   * cd get-digs-ui
+  * npm install
   * npm run start
 * Backend:
-  * (from project root)
-  * node app.js
+  * cd get-digs-be
+  * npm install
+  * npm run start

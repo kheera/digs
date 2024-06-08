@@ -1,10 +1,10 @@
 import { useState } from 'react';
 import { BackendApi} from "../services/BackendApi";
+import { ShowTitleBars } from "./ShowTitleBars";
 
 export function TaskComponent({ task }) {
     const [isEditing, setIsEditing] = useState(false);
     const [title, setTitle] = useState(task.title);
-
     const handleBlur = () => {
         console.log(`User left the input. Current value: ${title}`);
         setIsEditing(false);
@@ -31,7 +31,7 @@ export function TaskComponent({ task }) {
                                 <i className="fas fa-pencil-alt"></i>
                             </span>
                         </p>
-                        <p className="card-header-title is-flex is-justify-content-flex-end is-inline-flex">
+                        <p className="card-header-title is-flex is-justify-content-flex-end is-inline-flex no-margin-block-end">
                             <span className="icon flex">
                                 <i className="fas fa-cog"></i>
                             </span>
@@ -39,15 +39,7 @@ export function TaskComponent({ task }) {
                     </>
                 )}
             </header>
-
-            <div className="card-content">
-                {task.titleBars.map(titleBar => (
-                    <div key={titleBar.id} className="tags has-addons">
-                        <span className="tag">{titleBar}</span>
-                        <span><i className="fas fa-circle-nodes"></i></span>
-                    </div>
-                ))}
-            </div>
+            <ShowTitleBars titleBars={task.titleBars} />
         </div>
     );
 }
