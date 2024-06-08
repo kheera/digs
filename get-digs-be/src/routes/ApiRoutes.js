@@ -14,6 +14,19 @@ router.get('/tasks', (req, res) => {
     res.json(taskManager.getTasks());
 })
 
+// api routes to get a single task
+router.get('/task/:id', (req, res) => {
+    let taskId = req.params.id;
+    let taskManager = new TaskManager();
+    taskManager.loadFromFile();
+    let theTask = taskManager.getTaskById(taskId);
+    if (theTask) {
+        res.json(theTask);
+    } else {
+        res.status(404).json({ message: 'Task not found' });
+    }
+})
+
 router.put('/tasks/:id/title', (req, res) => {
     let taskId = req.params.id;
     let json = req.body;

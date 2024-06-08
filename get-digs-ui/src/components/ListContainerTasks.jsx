@@ -1,4 +1,3 @@
-// react, useState, useEffect, ListContainerTasks, global, apiUri, App
 import { useState, useEffect } from 'react';
 import { TaskComponent } from './TaskComponent';
 

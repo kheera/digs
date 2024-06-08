@@ -11,7 +11,7 @@ export function ShowTitleBars({titleBars}) {
     return (<>
         <div className="card-content">
             {titleBars.slice(0, titleBarShowCount).map(titleBar => (
-                <div key={titleBar.id} className="tags has-addons">
+                <div key={titleBar} className="tags has-addons">
                     <span className="tag">{titleBar}</span>
                     <span><i className="fas fa-circle-nodes"></i></span>
                 </div>

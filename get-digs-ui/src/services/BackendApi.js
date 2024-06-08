@@ -8,6 +8,10 @@ export function BackendApi() {
             return fetch(global.apiUri + '/tasks')
                 .then(res => res.json());
         },
+        getTask: async function(id) {
+            return fetch(`${global.apiUri}/task/${id}`)
+                .then(res => res.json());
+        },
         updateTaskTitle: async function(id, title) {
             console.log("Sending query to update task: ", id, title);
             return fetch(`${global.apiUri}/tasks/${id}/title`, {
