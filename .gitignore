@@ -1,8 +1,8 @@
-pics
+storage/data/pics
 tasksDB.json
-tasksDB-OLD.json
-tasks-db-backup.json
-tasks-db-full-backup.json
+storage/archive/tasksDB-OLD.json
+storage/archive/tasks-db-backup.json
+storage/archive/tasks-db-full-backup.json
 *.log
 node_modules
 .idea
