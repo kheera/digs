@@ -92,7 +92,7 @@ async function deleteTaskTimer(taskManager) {
     task.showTimers();
     // ask which one to delete
     const timerToDelete = await question("Which timer to delete? ");
-    task.deleteTimer(timerToDelete-1);
+    task.deleteTimerByIndex(timerToDelete-1);
     await taskManager.saveToFile();
     console.log("Task timer deleted for ", task.title);
     // show timers

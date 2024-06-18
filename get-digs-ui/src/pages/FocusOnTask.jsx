@@ -12,24 +12,17 @@ export function FocusOnTask() {
     useEffect(() => {
         BackendApi().getTask(id)
             .then(task => setTask(task));
-    });
+    }, [id]);
 
     if (!task) {
         return <div>Task not found!</div>;
     }
 
     return (
-        <div className="App">
-            <section className="section my-2">
-                <div className="content">
-                    <TaskDetailComponent task={task}/>
-                </div>
-            </section>
-            <footer className="footer my-2">
-                <div className="content has-text-centered">
-                    <p>© 2024 DIGS</p>
-                </div>
-            </footer>
-        </div>
+        <section className="section my-2">
+            <div className="content">
+                <TaskDetailComponent task={task}/>
+            </div>
+        </section>
     )
 }

@@ -1,14 +1,26 @@
-import React from 'react';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
-export function ShowTitleBars({titleBars}) {
+export function ListTitleBars({task}) {
+    const [titleBars, setTitleBars] = useState(task ? task.titleBars : []);
     // how many title bars to show
     const [titleBarShowCount, setTitleBarShowCount] = useState(5);
+
+    // if task changes, update title bars
+    useEffect(() => {
+        console.log("Updating title bars", task);
+        setTitleBars(task.titleBars || []);
+    }, [task]);
+
+
+
     const showMoreTitleBars = (count) => {
         setTitleBarShowCount(titleBarShowCount + count);
     };
 
-    return (<>
+    return (<div className="card">
+        <div className="card-header">
+            <p className="card-header-title">Title Bars</p>
+        </div>
         <div className="card-content">
             {titleBars.slice(0, titleBarShowCount).map(titleBar => (
                 <div key={titleBar} className="tags has-addons">
@@ -29,6 +41,6 @@ export function ShowTitleBars({titleBars}) {
                 </p>
             </footer>
         )}
-    </>);
+    </div>);
 }
 

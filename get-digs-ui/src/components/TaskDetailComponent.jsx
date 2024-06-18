@@ -1,12 +1,13 @@
 import { useState } from 'react';
 import { BackendApi} from "../services/BackendApi";
-import { ShowTitleBars } from "./ShowTitleBars";
+import { ListTitleBars } from "./ListTitleBars";
+import { ListTimers } from "./ListTimers";
+import { ListGoals } from "./ListGoals";
 
 export function TaskDetailComponent({ task }) {
     const [isEditing, setIsEditing] = useState(false);
     const [title, setTitle] = useState(task.title);
     const handleBlur = () => {
-        console.log(`User left the input. Current value: ${title}`);
         setIsEditing(false);
         BackendApi().updateTaskTitle(task.id, title);
     };
@@ -39,7 +40,11 @@ export function TaskDetailComponent({ task }) {
                     </>
                 )}
             </header>
-            <ShowTitleBars titleBars={task.titleBars} />
+            <div className="card-content">
+                <ListTimers task={task} />
+                <ListGoals task={task} />
+                <ListTitleBars task={task} />
+            </div>
         </div>
     );
 }

@@ -1,16 +1,19 @@
 import { useState } from 'react';
-import { ShowTitleBars } from "./ShowTitleBars";
+import { ListTitleBars } from "./ListTitleBars";
 
 export function TaskComponent({ task }) {
     const [title, setTitle] = useState(task.title);
     return (
-        <div className="card my-2">
-        <header className="show-hidden-action card-header is-flex">
-            <a className="card-header-title is-flex" href={`/task/${task.id}`}>
-                <span className="is-flex">{title}</span>
-            </a>
-        </header>
-        <ShowTitleBars titleBars={task.titleBars} />
-        </div>
+        <section className="section my-2">
+            <div className="content">
+                <header className="show-hidden-action card-header is-flex">
+                    <h3>
+                        <a className="card-header-title is-flex" href={`/task/${task.id}`}>
+                        {title}</a>
+                    </h3>
+                </header>
+                <ListTitleBars task={task}/>
+            </div>
+        </section>
     );
 }

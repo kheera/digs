@@ -9,14 +9,16 @@
 
 ## How to:
 
-* command line: 
-  * cd get-digs-cli
-  * node timerAppHowAmI.mjs
-* UI:
-  * cd get-digs-ui
-  * npm install
-  * npm run start
-* Backend:
+* BE:
   * cd get-digs-be
   * npm install
-  * npm run start
+  * npm run dev
+* FE:
+  * cd get-digs-ui
+  * npm install
+  * npm run dev
+* command line (mostly deprecated I guess?): 
+  * cd get-digs-cli
+  * node timerAppHowAmI.mjs
+
+

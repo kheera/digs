@@ -1,5 +1,6 @@
 // need cli-tables3
 import Table from 'cli-table3';
+import { randomlyCreatedAlphaNumericTimeSortableId } from "../functions/randomlyCreatedAlphaNumericTimeSortableId.mjs";
 
 export class Task {
     constructor(title, isWorkRelated) {
@@ -19,34 +20,58 @@ export class Task {
         this.hoursLog.push(log);
     }
 
-    addGoal(goal) {
-        // need to include a date and timestamp
+    addGoal(description) {
+        if (!Array.isArray(this.goals)) {
+            this.goals = [];
+        }
         const dateTime = new Date();
         const isoDateTimeString = dateTime.toISOString();
-        if (!this.goals[isoDateTimeString]) {
-            this.goals[isoDateTimeString] = [];
-        }
-        this.goals[isoDateTimeString].push(goal);
+        this.goals.push(
+            {
+                id: 'g-' + randomlyCreatedAlphaNumericTimeSortableId(),
+                dateTime: isoDateTimeString,
+                description: description
+            }
+        )
         console.log("Added goal to task goals: ", this.goals);
     }
 
     // start timer
-    startTimer() {
-        const startTime = new Date();
+    startTimer(startTime) {
         // save s iso date time string
         // if there are no timers, create an array
         if (!this.timers) {
             this.timers = [];
         }
-        this.timers.push({startTime: startTime.toISOString()});
+
+        this.timers.push({
+            id: 'tsk-' + randomlyCreatedAlphaNumericTimeSortableId(),
+            startTime: startTime
+        });
+        // return the timers
         console.log("Started timer: ", this.timers);
+
     }
 
     // stop timer
-    stopTimer() {
-        console.log("Trying to stop a timer: ", this.timers);
-        const stopTime = new Date();
-        this.timers[this.timers.length - 1].stopTime = stopTime.toISOString();
+    updateTimer(id, timer) {
+        console.log("Update timer: ", id, timer);
+        // use the id to search replace the timer
+        // find the timer
+        let oldTimer = this.timers.find(t => t.id === id);
+        let index = this.timers.indexOf(oldTimer);
+        this.timers[index] = timer;
+        console.log("Updated timer: ", this.timers[index]);
+    }
+
+    // delete timer
+    deleteTimer(id) {
+        console.log("Delete timer: ", id);
+        // find the timer
+        let timer = this.timers.find(t => t.id === id);
+        let index = this.timers.indexOf(timer);
+        this.timers.splice(index, 1);
+        console.log("Deleted timer: ", this.timers);
     }
 
     openTimers() {
@@ -72,7 +97,7 @@ export class Task {
         console.log(table.toString());
     }
 
-    deleteTimer(index) {
+    deleteTimerByIndex(index) {
         this.timers.splice(index, 1);
     }
 
