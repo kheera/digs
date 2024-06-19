@@ -1,15 +1,15 @@
-import {chooseTask} from "./chooseTask.mjs";
+import {chooseProject} from "./chooseProject.mjs";
 import {question} from "./question.mjs";
 // split line
 import {splitLogLine} from "./splitLogLine.mjs";
 
-export async function reviewTaskLog(taskManager) {
-    console.log("Okay, let's review the task log.");
-    // show task titles
-    console.log("Which task would you like to show the log for?");
-    const task = await chooseTask(taskManager, "Choose which task to show the log for:");
-    console.log("Task: ", task.title);
-    let hoursLog = task.hoursLog;
+export async function reviewProjectLog(projectManager) {
+    console.log("Okay, let's review the project log.");
+    // show project titles
+    console.log("Which project would you like to show the log for?");
+    const project = await chooseProject(projectManager, "Choose which project to show the log for:");
+    console.log("Project: ", project.title);
+    let hoursLog = project.hoursLog;
     // sort hours log
     hoursLog.sort();
     // use for of to show hours log 50 at a time

@@ -2,7 +2,7 @@
 import Table from 'cli-table3';
 import { randomlyCreatedAlphaNumericTimeSortableId } from "../functions/randomlyCreatedAlphaNumericTimeSortableId.mjs";
 
-export class Task {
+export class Project {
     constructor(title, isWorkRelated) {
         this.title = title;
         this.isWorkRelated = isWorkRelated;
@@ -33,7 +33,7 @@ export class Task {
                 description: description
             }
         )
-        console.log("Added goal to task goals: ", this.goals);
+        console.log("Added goal to project goals: ", this.goals);
     }
 
     // start timer

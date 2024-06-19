@@ -1,36 +1,36 @@
 import dotenv from 'dotenv';
-import { TaskManager } from '../get-digs-be/classes/TaskManager.mjs';
+import { ProjectManager } from '../get-digs-be/classes/ProjectManager.mjs';
 import { dailyGoals } from "../get-digs-be/functions/dailyGoals.mjs";
 import { inputLogFile } from '../get-digs-be/functions/inputLogFile.mjs';
 import { logActiveWindow } from "../get-digs-be/functions/logActiveWindow.mjs";
 import { question } from '../get-digs-be/functions/question.mjs';
-import { renameTask } from "../get-digs-be/functions/renameTask.mjs";
-import { reviewTaskLog } from "../get-digs-be/functions/reviewTaskLog.mjs";
-import { reviewTasks } from "../get-digs-be/functions/reviewTasks.mjs";
-import { showHoursForTask } from "../get-digs-be/functions/showHoursForTask.mjs";
+import { renameProject } from "../get-digs-be/functions/renameProject.mjs";
+import { reviewProjectLog } from "../get-digs-be/functions/reviewProjectLog.mjs";
+import { reviewProjects } from "../get-digs-be/functions/reviewProjects.mjs";
+import { showHoursForProject } from "../get-digs-be/functions/showHoursForProject.mjs";
 import { takeScreenshot } from "../get-digs-be/functions/takeScreenshot.mjs";
-import { reviewGoalsForTask } from "../get-digs-be/functions/reviewGoalsForTask.mjs";
-import { chooseTask } from "../get-digs-be/functions/chooseTask.mjs";
-import { manageTask } from "../get-digs-be/classes/TaskManager.mjs";
+import { reviewGoalsForProject } from "../get-digs-be/functions/reviewGoalsForProject.mjs";
+import { chooseProject } from "../get-digs-be/functions/chooseProject.mjs";
+import { manageProject } from "../get-digs-be/classes/ProjectManager.mjs";
 import path from "path";
 
 const activeWindowLog = 'active-window.log';
 const options = [
-    { name: 'Manage Tasks', action: manageTask, labels: ['manage'] },
+    { name: 'Manage Projects', action: manageProject, labels: ['manage'] },
     { name: 'Start activity log', action: logTimeLoop, labels: ['timer'] },
     { name: 'Stop activity log ', action: cancelLogTimeLoop, labels: ['timer'] },
-    { name: 'Start task timer', action: startTaskTimer, labels: ['timer'] },
-    { name: 'Stop task timer', action: stopTaskTimer, labels: ['timer'] },
-    { name: 'Show Timer', action: showTaskTimer, labels: ['timer']},
-    { name: 'Delete Timer', action: deleteTaskTimer, labels: ['timer']},
+    { name: 'Start project timer', action: startProjectTimer, labels: ['timer'] },
+    { name: 'Stop project timer', action: stopProjectTimer, labels: ['timer'] },
+    { name: 'Show Timer', action: showProjectTimer, labels: ['timer']},
+    { name: 'Delete Timer', action: deleteProjectTimer, labels: ['timer']},
 
     { name: 'Set daily goals', action: dailyGoals, labels: ['goals'] },
-    { name: 'Review Goals for Task', action: reviewGoalsForTask, labels: ['goals'] },
-    { name: 'Load tasks from logfile into Tasks DB', action: inputLogFile, labels: ['tasks'] },
-    { name: 'Review Tasks', action: reviewTasks, labels: ['tasks'] },
-    { name: 'Rename Task', action: renameTask, labels: ['tasks'] },
-    { name: 'Review Task Log', action: reviewTaskLog, labels: ['tasks'] },
-    { name: 'Show Hours for Task', action: showHoursForTask, labels: ['tasks'] },
+    { name: 'Review Goals for Project', action: reviewGoalsForProject, labels: ['goals'] },
+    { name: 'Load projects from logfile into Projects DB', action: inputLogFile, labels: ['projects'] },
+    { name: 'Review Projects', action: reviewProjects, labels: ['projects'] },
+    { name: 'Rename Project', action: renameProject, labels: ['projects'] },
+    { name: 'Review Project Log', action: reviewProjectLog, labels: ['projects'] },
+    { name: 'Show Hours for Project', action: showHoursForProject, labels: ['projects'] },
 ]
 
 let cancelTimeLoop = false;
@@ -57,46 +57,46 @@ function cancelLogTimeLoop() {
     clearInterval(cancelTimeLoop);
 }
 
-async function startTaskTimer(taskManager) {
-    console.log("Starting task timer");
-    const task = await chooseTask(taskManager, "Choose which task to start timer for:");
-    task.startTimer();
-    // started time for task
-    await taskManager.saveToFile();
-    console.log("Task timer started for ", task.title);
+async function startProjectTimer(projectManager) {
+    console.log("Starting project timer");
+    const project = await chooseProject(projectManager, "Choose which project to start timer for:");
+    project.startTimer();
+    // started time for project
+    await projectManager.saveToFile();
+    console.log("Project timer started for ", project.title);
     // show timers
-    task.showTimers();
+    project.showTimers();
 }
 
-async function stopTaskTimer(taskManager) {
-    console.log("Stopping task timer");
-    const task = await chooseTask(taskManager, "Choose which task to stop timer for:");
-    task.stopTimer();
-    await taskManager.saveToFile();
-    console.log("Task timer stopped for ", task.title);
+async function stopProjectTimer(projectManager) {
+    console.log("Stopping project timer");
+    const project = await chooseProject(projectManager, "Choose which project to stop timer for:");
+    project.stopTimer();
+    await projectManager.saveToFile();
+    console.log("Project timer stopped for ", project.title);
     // show timers
-    task.showTimers();
+    project.showTimers();
 }
 
-async function showTaskTimer(taskManager) {
-    console.log("Showing task timer");
-    const task = await chooseTask(taskManager, "Choose which task to show timer for:");
-    task.showTimers();
+async function showProjectTimer(projectManager) {
+    console.log("Showing project timer");
+    const project = await chooseProject(projectManager, "Choose which project to show timer for:");
+    project.showTimers();
 }
 
 // delete timer
-async function deleteTaskTimer(taskManager) {
-    console.log("Deleting task timer");
-    const task = await chooseTask(taskManager, "Choose which task to delete timer for:");
+async function deleteProjectTimer(projectManager) {
+    console.log("Deleting project timer");
+    const project = await chooseProject(projectManager, "Choose which project to delete timer for:");
     // show timers
-    task.showTimers();
+    project.showTimers();
     // ask which one to delete
     const timerToDelete = await question("Which timer to delete? ");
-    task.deleteTimerByIndex(timerToDelete-1);
-    await taskManager.saveToFile();
-    console.log("Task timer deleted for ", task.title);
+    project.deleteTimerByIndex(timerToDelete-1);
+    await projectManager.saveToFile();
+    console.log("Project timer deleted for ", project.title);
     // show timers
-    task.showTimers();
+    project.showTimers();
 
 }
 
@@ -112,8 +112,8 @@ async function main() {
     while (true) {
         // get date from most recent log file entry
 
-        const taskManager = new TaskManager();
-        await taskManager.loadFromFile();
+        const projectManager = new ProjectManager();
+        await projectManager.loadFromFile();
         // clear a 5 lines
         console.log("\n\n\n\n\n");
         if (mostRecentLogEntry) {
@@ -135,7 +135,7 @@ async function main() {
         const choice = await question('Enter your choice: ');
         const selectedOption = options[choice - 1];
         if (selectedOption) {
-            await selectedOption.action(taskManager);
+            await selectedOption.action(projectManager);
         }
 
         // continue or exit?

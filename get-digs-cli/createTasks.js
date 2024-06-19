@@ -10,17 +10,17 @@ const rl = readline.createInterface({
     output: process.stdout
 });
 
-// Function to read the tasks database
-function readTasksDB() {
+// Function to read the projects database
+function readProjectsDB() {
     return new Promise((resolve, reject) => {
         // create file if doesn't exist
-        // fs.readFile('tasksDB.json', (err, data) => {
+        // fs.readFile('projectsDB.json', (err, data) => {
         //     if (err) reject(err);
         //     else resolve(JSON.parse(data));
         // });
-        fs.readFile('tasksDB.json', (err, data) => {
+        fs.readFile('projectsDB.json', (err, data) => {
             if (err) {
-                fs.writeFileSync('tasksDB.json', '{}');
+                fs.writeFileSync('projectsDB.json', '{}');
                 resolve({});
             } else {
                 resolve(JSON.parse(data));
@@ -30,29 +30,29 @@ function readTasksDB() {
 }
 
 // Function to ask the user to classify a log entry
-async function classifyLogEntry(logEntry, tasks) {
+async function classifyLogEntry(logEntry, projects) {
     console.log(`Log Entry: ${logEntry}`);
-    // List existing tasks
-    tasks.forEach((task, index) => {
-        console.log(`${index + 1}. ${task}`);
+    // List existing projects
+    projects.forEach((project, index) => {
+        console.log(`${index + 1}. ${project}`);
     });
-    console.log(`${tasks.length + 1}. Add a new task`);
+    console.log(`${projects.length + 1}. Add a new project`);
 
     return new Promise((resolve) => {
-        rl.question('Choose a task for this log entry (number): ', (answer) => {
+        rl.question('Choose a project for this log entry (number): ', (answer) => {
             const choice = parseInt(answer);
-            if (choice === tasks.length + 1) {
-                // Handle adding a new task
-                rl.question('Enter the name of the new task: ', (newTask) => {
-                    // if new task then add it to the tasksDB
-                    tasks.unshift(newTask);
-                    fs.writeFileSync('tasksDB.json', JSON.stringify(tasks), 'utf8');
-                    resolve(newTask);
+            if (choice === projects.length + 1) {
+                // Handle adding a new project
+                rl.question('Enter the name of the new project: ', (newProject) => {
+                    // if new project then add it to the projectsDB
+                    projects.unshift(newProject);
+                    fs.writeFileSync('projectsDB.json', JSON.stringify(projects), 'utf8');
+                    resolve(newProject);
                     // rl.close();
                 });
-            } else if (choice > 0 && choice <= tasks.length) {
-                // Use an existing task
-                resolve(tasks[choice - 1]);
+            } else if (choice > 0 && choice <= projects.length) {
+                // Use an existing project
+                resolve(projects[choice - 1]);
                 // rl.close();
             } else if (isNaN(choice)) {
                 console.log('Invalid input. Please enter a number.');
@@ -70,8 +70,8 @@ async function classifyLogEntry(logEntry, tasks) {
 // Main function to process the log
 async function processLog() {
     const logFile = process.env.ACTIVE_WINDOW_LOG;
-    const tasksDB = await readTasksDB();
-    const tasks = Object.keys(tasksDB);
+    const projectsDB = await readProjectsDB();
+    const projects = Object.keys(projectsDB);
     // Simulate a log entry for demonstration
     // const logEntry = '2024-01-12_10-08-28, Terminal - astro-loyalty-shopify';
     // open active-window.log
@@ -79,8 +79,8 @@ async function processLog() {
     const logEntriesArray = logEntries.split('\n');
     for (let i = 0; i < logEntriesArray.length; i++) {
         const logEntry = logEntriesArray[i];
-        const chosenTask = await classifyLogEntry(logEntry, tasks);
-        console.log(`You chose/added: ${chosenTask}`);
+        const chosenProject = await classifyLogEntry(logEntry, projects);
+        console.log(`You chose/added: ${chosenProject}`);
     }
     rl.close();
 

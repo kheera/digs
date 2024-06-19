@@ -4,12 +4,12 @@ import { ListTitleBars } from "./ListTitleBars";
 import { ListTimers } from "./ListTimers";
 import { ListGoals } from "./ListGoals";
 
-export function TaskDetailComponent({ task }) {
+export function ProjectDetailComponent({ project }) {
     const [isEditing, setIsEditing] = useState(false);
-    const [title, setTitle] = useState(task.title);
+    const [title, setTitle] = useState(project.title);
     const handleBlur = () => {
         setIsEditing(false);
-        BackendApi().updateTaskTitle(task.id, title);
+        BackendApi().updateProjectTitle(project.id, title);
     };
 
     return (
@@ -41,9 +41,9 @@ export function TaskDetailComponent({ task }) {
                 )}
             </header>
             <div className="card-content">
-                <ListTimers task={task} />
-                <ListGoals task={task} />
-                <ListTitleBars task={task} />
+                <ListTimers project={project} />
+                <ListGoals project={project} />
+                <ListTitleBars project={project} />
             </div>
         </div>
     );

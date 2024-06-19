@@ -1,4 +1,4 @@
-import { TaskManager } from './src/classes/TaskManager.mjs';
+import { ProjectManager } from './src/classes/ProjectManager.mjs';
 import express from 'express';
 import dotenv from 'dotenv';
 import cors from 'cors';
@@ -7,8 +7,8 @@ const port = 3001;
 const app = express();
 import { ApiRoutes } from './src/routes/ApiRoutes.js';
 dotenv.config({ path: path.resolve(process.cwd(), '../.env') });
-const taskManager = new TaskManager();
-taskManager.loadFromFile();
+const projectManager = new ProjectManager();
+projectManager.loadFromFile();
 
 
 // enable cors from all same-origin domains

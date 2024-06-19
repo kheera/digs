@@ -4,18 +4,28 @@ export function BackendApi() {
     };
 
     return {
-        getTasks: async function() {
-            return fetch(global.apiUri + '/tasks')
+        getProjects: async function() {
+            return fetch(global.apiUri + '/projects')
                 .then(res => res.json());
         },
-        getTask: async function(id) {
-            console.trace("Getting task");
-            return fetch(`${global.apiUri}/task/${id}`)
+        addProject: async function(project) {
+            return fetch(global.apiUri + '/projects', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(project)
+            })
                 .then(res => res.json());
         },
-        updateTaskTitle: async function(id, title) {
-            console.log("Sending query to update task: ", id, title);
-            return fetch(`${global.apiUri}/tasks/${id}/title`, {
+        getProject: async function(id) {
+            console.trace("Getting project");
+            return fetch(`${global.apiUri}/project/${id}`)
+                .then(res => res.json());
+        },
+        updateProjectTitle: async function(id, title) {
+            console.log("Sending query to update project: ", id, title);
+            return fetch(`${global.apiUri}/projects/${id}/title`, {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json'
@@ -23,19 +33,9 @@ export function BackendApi() {
                 body: JSON.stringify({ title: title })
             })
                 .then(res => res.json());
-        }, // add new task
-        addTask: async function(task) {
-            return fetch(global.apiUri + '/tasks', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(task)
-            })
-                .then(res => res.json());
-        },
-        startTimer: async function(taskId) {
-            return fetch(`${global.apiUri}/task/${taskId}/timer`, {
+        }, // add new project
+        startTimer: async function(projectId) {
+            return fetch(`${global.apiUri}/project/${projectId}/timer`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -46,8 +46,8 @@ export function BackendApi() {
                     return res.json();
                 }   );
         },
-        updateTimer: async function(taskId, timer) {
-            return fetch(`${global.apiUri}/task/${taskId}/timer/${timer.id}`, {
+        updateTimer: async function(projectId, timer) {
+            return fetch(`${global.apiUri}/project/${projectId}/timer/${timer.id}`, {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json'
@@ -56,9 +56,19 @@ export function BackendApi() {
             })
                 .then(res => res.json());
         },
-        deleteTimer: async function(taskId, timerId) {
-            return fetch(`${global.apiUri}/task/${taskId}/timer/${timerId}`, {
+        deleteTimer: async function(projectId, timerId) {
+            return fetch(`${global.apiUri}/project/${projectId}/timer/${timerId}`, {
                 method: 'DELETE'
+            })
+                .then(res => res.json());
+        },
+        addGoal: async function(projectId, description) {
+            return fetch(`${global.apiUri}/project/${projectId}/goal`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ description: description })
             })
                 .then(res => res.json());
         }

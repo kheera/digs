@@ -30,12 +30,10 @@ export function ActiveTimer({ startTime }) {
     }
 
     useEffect(() => {
-        console.log("................Start time: " + startTime);
         const interval = setInterval(() => {
             const currentTime = new Date();
             const st = new Date(startTime);
             const elapsedTime = Math.floor((currentTime - st) / 1000);
-            console.log("time elapsed in seconds: ", elapsedTime);
             setTimeElapsed(elapsedTime);
             // update webpage title with time elapsed
             // document.title = `DIGS: ${formatTime(elapsedTime)} seconds`;

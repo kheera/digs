@@ -1,5 +1,7 @@
 storage/data/pics
 tasksDB.json
+projectsDB.json
+tasksDB-old.json
 storage/archive/tasksDB-OLD.json
 storage/archive/tasks-db-backup.json
 storage/archive/tasks-db-full-backup.json

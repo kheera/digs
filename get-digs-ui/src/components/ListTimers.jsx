@@ -6,18 +6,18 @@ import {TimePicker} from "./TimePicker";
 import {ShowTimer} from "./ShowTimer";
 
 // display timers in a card
-export function ListTimers({ task }) {
-    // get timers from the task
-    const [timers, setTimers] = useState(task.timers);
+export function ListTimers({ project }) {
+    // get timers from the project
+    const [timers, setTimers] = useState(project.timers);
     const [startTime, setStartTime] = useState(new Date());
-    // if task changes
+    // if project changes
     useEffect(() => {
-        setTimers(task.timers);
-    }, [task]);
+        setTimers(project.timers);
+    }, [project]);
 
     // handle start timer button
     const handleStartTimer = () => {
-        BackendApi().startTimer(task.id)
+        BackendApi().startTimer(project.id)
             .then(res => {
                 setTimers(res.timers);
             });
@@ -33,7 +33,7 @@ export function ListTimers({ task }) {
                 {timers.map(timer => (
                     <ShowTimer
                         key={timer.id}
-                        task={task}
+                        project={project}
                         timer={timer}
                         setTimers={setTimers}
                     />

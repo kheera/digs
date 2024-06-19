@@ -1,4 +1,4 @@
-import {chooseTask} from "./chooseTask.mjs";
+import {chooseProject} from "./chooseProject.mjs";
 import {splitLogLine} from "./splitLogLine.mjs";
 
 // lets create a class so it's easier to track day and month totals. we'll have one class for each month.
@@ -125,11 +125,11 @@ class Day {
     }
 }
 
-export async function showHoursForTask(taskManager) {
-    console.log("Okay, let's show the hours for a task.");
-    let task = await chooseTask(taskManager, "Choose which task to show the hours for:");
+export async function showHoursForProject(projectManager) {
+    console.log("Okay, let's show the hours for a project.");
+    let project = await chooseProject(projectManager, "Choose which project to show the hours for:");
     let monthlyMinutes = {};
-    let hoursLog = task.hoursLog;
+    let hoursLog = project.hoursLog;
     hoursLog.sort();
     // show all of hours log
     let counter = 0;

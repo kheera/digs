@@ -5,7 +5,7 @@ import {BackendApi} from "../services/BackendApi";
 import {TimePicker} from "./TimePicker";
 import {TimeDurationPicker} from "./TimeDurationPicker";
 
-export function ShowTimer({ task, timer, setTimers }) {
+export function ShowTimer({ project, timer, setTimers }) {
 
     const [startTime, setStartTime] = useState(new Date(timer.startTime));
     const [endTime, setEndTime] = useState();
@@ -16,7 +16,7 @@ export function ShowTimer({ task, timer, setTimers }) {
 
     function updateStartTime(startTime) {
         setStartTime(startTime);
-        BackendApi().updateTimer(task.id, { ...timer, startTime })
+        BackendApi().updateTimer(project.id, { ...timer, startTime })
             .then(res => {
                 setTimers(res.timers);
                 setEditStartTime(false);
@@ -68,14 +68,14 @@ export function ShowTimer({ task, timer, setTimers }) {
         const startDateTime = new Date(timer.startTime);
         const diff = currentDateTime - startDateTime;
         timer.duration = Math.round(diff / 1000);
-        BackendApi().updateTimer(task.id, timer)
+        BackendApi().updateTimer(project.id, timer)
             .then(res => {
                 setTimers(res.timers);
             });
     };
 
     const handleDeleteTimer = (timer) => {
-        BackendApi().deleteTimer(task.id, timer.id)
+        BackendApi().deleteTimer(project.id, timer.id)
             .then(res => {
                 setTimers(res.timers);
             });

@@ -12,7 +12,7 @@
 //         crlfDelay: Infinity
 //     });
 //
-//     let previousTask;
+//     let previousProject;
 //     let previousDateTime;
 //     let totalMilliseconds = 0;
 //
@@ -30,14 +30,14 @@
 //
 //         if (previousDateTime) {
 //             const diffMilliseconds = (logLineDateTime - previousDateTime);
-//             console.log("Previous Task: ", previousTask, " Current Task: ", titleBar);
+//             console.log("Previous Project: ", previousProject, " Current Project: ", titleBar);
 //             console.log("    Previous: ", previousDateTime.toLocaleDateString() + ' ' + previousDateTime.toLocaleTimeString() + " Current: ", logLineDateTime.toLocaleDateString() + ' ' + logLineDateTime.toLocaleTimeString());
 //             console.log("    Diff minutes: ", Math.round(diffMilliseconds / 1000 / 60));
 //             totalMilliseconds += diffMilliseconds;
 //             previousDateTime = logLineDateTime;
 //         } else {
 //             previousDateTime = logLineDateTime;
-//             previousTask = titleBar;
+//             previousProject = titleBar;
 //         }
 //     }
 //

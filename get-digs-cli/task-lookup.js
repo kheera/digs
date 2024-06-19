@@ -1,5 +1,5 @@
-// Task Lookup Table
-const taskLookup = {
+// Project Lookup Table
+const projectLookup = {
     "Terminal - astro-loyalty-shopify": "Development Work",
     "Home / X - Google Chrome": "Research",
     "Facebook - Google Chrome": "Social Networking",
@@ -18,17 +18,17 @@ const data = [
     "2024-01-12_10-38-33, ops - IVIE - Slack"
 ];
 
-// Function to map each window to a task
-function mapWindowsToTasks(data) {
+// Function to map each window to a project
+function mapWindowsToProjects(data) {
     return data.map(entry => {
         const [timestamp, windowTitle] = entry.split(', ');
-        const task = taskLookup[windowTitle] || "Unknown Task"; // Default to "Unknown Task" if not in lookup table
-        return `${timestamp}: ${task}`;
+        const project = projectLookup[windowTitle] || "Unknown Project"; // Default to "Unknown Project" if not in lookup table
+        return `${timestamp}: ${project}`;
     });
 }
 
 // Process the data
-const tasks = mapWindowsToTasks(data);
+const projects = mapWindowsToProjects(data);
 
-// Display the tasks
-console.log(tasks);
+// Display the projects
+console.log(projects);

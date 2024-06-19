@@ -1,93 +1,105 @@
 import express from 'express'
 const router = express.Router()
-import { TaskManager } from '../classes/TaskManager.mjs';
+import { ProjectManager } from '../classes/ProjectManager.mjs';
 
 
 // api json routes
 router.use(express.json( { limit: '10mb'}));
 
-// api routes to get a list of tasks
-router.get('/tasks', (req, res) => {
-    let taskManager = new TaskManager();
-    taskManager.loadFromFile();
+// api routes to get a list of projects
+router.get('/projects', (req, res) => {
+    let projectManager = new ProjectManager();
+    projectManager.loadFromFile();
     // send json response
-    res.json(taskManager.getTasks());
+    res.json(projectManager.getProjects());
 })
 
-// api routes to add a new task
-router.post('/tasks', (req, res) => {
+// api routes to add a new project
+router.post('/projects', (req, res) => {
     let json = req.body;
-    let taskManager = new TaskManager();
-    taskManager.loadFromFile();
-    console.log("Adding task", json);
-    taskManager.addTask(json);
-    taskManager.saveToFile();
-    res.json(taskManager.getTasks());
+    let projectManager = new ProjectManager();
+    projectManager.loadFromFile();
+    console.log("Adding project", json);
+    projectManager.addProject(json);
+    projectManager.saveToFile();
+    res.json(projectManager.getProjects());
 })
 
-let taskRouter = express.Router({ mergeParams: true });
-taskRouter.get('/', (req, res) => {
-    let taskId = req.params.id;
-    let taskManager = new TaskManager();
-    taskManager.loadFromFile();
-    let theTask = taskManager.getTaskById(taskId);
-    if (theTask) {
-        res.json(theTask);
+let projectRouter = express.Router({ mergeParams: true });
+projectRouter.get('/', (req, res) => {
+    let projectId = req.params.id;
+    let projectManager = new ProjectManager();
+    projectManager.loadFromFile();
+    let theProject = projectManager.getProjectById(projectId);
+    if (theProject) {
+        res.json(theProject);
     } else {
-        res.status(404).json({ message: 'Task not found' });
+        res.status(404).json({ message: 'Project not found' });
     }
 })
 
-taskRouter.put('/title', (req, res) => {
-    let taskId = req.params.id;
+projectRouter.put('/title', (req, res) => {
+    let projectId = req.params.id;
     let json = req.body;
-    let taskManager = new TaskManager();
-    taskManager.loadFromFile();
-    let theTask = taskManager.getTaskById(taskId);
-    theTask.title = json.title;
-    taskManager.saveToFile();
+    let projectManager = new ProjectManager();
+    projectManager.loadFromFile();
+    let theProject = projectManager.getProjectById(projectId);
+    theProject.title = json.title;
+    projectManager.saveToFile();
     res.json({ success: true });
 })
 
-// start a timer
-taskRouter.post('/timer', (req, res) => {
-    let taskId = req.params.id;
+// add a goal
+projectRouter.post('/goal', (req, res) => {
+    let projectId = req.params.id;
     let json = req.body;
-    let taskManager = new TaskManager();
-    taskManager.loadFromFile();
-    let theTask = taskManager.getTaskById(taskId);
-    theTask.startTimer(json.startTime);
-    taskManager.saveToFile();
-    res.json({ timers: theTask.timers });
+    let projectManager = new ProjectManager();
+    projectManager.loadFromFile();
+    let theProject = projectManager.getProjectById(projectId);
+    theProject.addGoal(json.description);
+    projectManager.saveToFile();
+    res.json({ goals: theProject.goals });
+})
+
+// start a timer
+projectRouter.post('/timer', (req, res) => {
+    let projectId = req.params.id;
+    let json = req.body;
+    let projectManager = new ProjectManager();
+    projectManager.loadFromFile();
+    let theProject = projectManager.getProjectById(projectId);
+    theProject.startTimer(json.startTime);
+    projectManager.saveToFile();
+    res.json({ timers: theProject.timers });
 })
 
 // update timer
-taskRouter.put('/timer/:timerId', (req, res) => {
+projectRouter.put('/timer/:timerId', (req, res) => {
     console.log("Params ... ", req.params);
-    let taskId = req.params.id;
+    let projectId = req.params.id;
     let timerId = req.params.timerId;
     let updatedTimer = req.body;
-    let taskManager = new TaskManager();
-    taskManager.loadFromFile();
-    let theTask = taskManager.getTaskById(taskId);
-    theTask.updateTimer(timerId, updatedTimer);
-    taskManager.saveToFile();
-    res.json({ timers: theTask.timers });
+    let projectManager = new ProjectManager();
+    projectManager.loadFromFile();
+    let theProject = projectManager.getProjectById(projectId);
+    theProject.updateTimer(timerId, updatedTimer);
+    projectManager.saveToFile();
+    res.json({ timers: theProject.timers });
 })
 
 // delete timer
-taskRouter.delete('/timer/:timerId', (req, res) => {
-    let taskId = req.params.id;
+projectRouter.delete('/timer/:timerId', (req, res) => {
+    let projectId = req.params.id;
     let timerId = req.params.timerId;
-    let taskManager = new TaskManager();
-    taskManager.loadFromFile();
-    let theTask = taskManager.getTaskById(taskId);
-    theTask.deleteTimer(timerId);
-    taskManager.saveToFile();
-    res.json({ timers: theTask.timers });
+    let projectManager = new ProjectManager();
+    projectManager.loadFromFile();
+    let theProject = projectManager.getProjectById(projectId);
+    theProject.deleteTimer(timerId);
+    projectManager.saveToFile();
+    res.json({ timers: theProject.timers });
 })
 
-router.use('/task/:id', taskRouter);
+router.use('/project/:id', projectRouter);
 // module.exports = router
 // export as ApiRoutes
 export { router as ApiRoutes };

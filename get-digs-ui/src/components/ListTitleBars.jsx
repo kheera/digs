@@ -1,15 +1,15 @@
 import { useState, useEffect } from 'react';
 
-export function ListTitleBars({task}) {
-    const [titleBars, setTitleBars] = useState(task ? task.titleBars : []);
+export function ListTitleBars({project}) {
+    const [titleBars, setTitleBars] = useState(project ? project.titleBars : []);
     // how many title bars to show
     const [titleBarShowCount, setTitleBarShowCount] = useState(5);
 
-    // if task changes, update title bars
+    // if project changes, update title bars
     useEffect(() => {
-        console.log("Updating title bars", task);
-        setTitleBars(task.titleBars || []);
-    }, [task]);
+        console.log("Updating title bars", project);
+        setTitleBars(project.titleBars || []);
+    }, [project]);
 
 
 

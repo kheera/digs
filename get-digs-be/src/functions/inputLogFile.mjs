@@ -1,11 +1,11 @@
-import {TaskManager} from "../classes/TaskManager.mjs";
+import {ProjectManager} from "../classes/ProjectManager.mjs";
 import {question} from "./question.mjs";
 import fs from "fs";
 import readline from "readline";
 import {splitLogLine} from "./splitLogLine.mjs";
-import {Task} from "../classes/Task.mjs";
+import {Project} from "../classes/Project.mjs";
 
-export async function inputLogFile(taskManager) {
+export async function inputLogFile(projectManager) {
     const defaultInputLogFile = process.env.ACTIVE_WINDOW_LOG;
     const fileStream = fs.createReadStream(defaultInputLogFile);
     const rl = readline.createInterface({
@@ -18,7 +18,7 @@ export async function inputLogFile(taskManager) {
     for await (const line of rl) {
         count++;
         // let dateTimeString = line.split(',')[0];
-        // let taskTitleBar = line.split(',')[1];
+        // let projectTitleBar = line.split(',')[1];
         let { logLineDateTime, titleBar } = splitLogLine(line);
         // if not title bar then skip
         if (!logLineDateTime || !titleBar) {
@@ -26,45 +26,45 @@ export async function inputLogFile(taskManager) {
         }
 
         // if line already exists as an hours log then skip
-        if (taskManager.getTaskByHoursLog(line)) {
-            // get the task and show the title
-            let task = taskManager.getTaskByHoursLog(line);
-            console.log(task.title, "has log ", line);
+        if (projectManager.getProjectByHoursLog(line)) {
+            // get the project and show the title
+            let project = projectManager.getProjectByHoursLog(line);
+            console.log(project.title, "has log ", line);
             continue;
         }
 
-        let task;
-        if (taskManager.getTaskByTitleBar(titleBar)) {
-            task = taskManager.getTaskByTitleBar(titleBar);
-            console.log(task.title, "adding log", line);
-            task.addHoursLog(line);
+        let project;
+        if (projectManager.getProjectByTitleBar(titleBar)) {
+            project = projectManager.getProjectByTitleBar(titleBar);
+            console.log(project.title, "adding log", line);
+            project.addHoursLog(line);
         } else {
             console.log("");
             console.log("");
             console.log('NEW', titleBar);
             console.log("-----------------");
             // pick a title
-            console.log("Tasks:");
-            taskManager.getTaskTitles().forEach((task, index) => {
-                console.log(`   ${index + 1}. ${task}`);
+            console.log("Projects:");
+            projectManager.getProjectTitles().forEach((project, index) => {
+                console.log(`   ${index + 1}. ${project}`);
             });
-            const choice = await question('Assign by number or enter new task name: ');
+            const choice = await question('Assign by number or enter new project name: ');
             console.log("");
-            let task;
-            if (choice > 0 && choice <= taskManager.getTaskTitles().length) {
-                let taskTitle = taskManager.getTaskTitles()[choice - 1];
-                task = taskManager.getTaskByTitle(taskTitle);
-                task.addHoursLog(line);
-                task.addTitleBar(titleBar);
+            let project;
+            if (choice > 0 && choice <= projectManager.getProjectTitles().length) {
+                let projectTitle = projectManager.getProjectTitles()[choice - 1];
+                project = projectManager.getProjectByTitle(projectTitle);
+                project.addHoursLog(line);
+                project.addTitleBar(titleBar);
             } else {
-                // if new task then add it to the tasksDB
-                task = new Task(choice, true);
-                task.addTitleBar(titleBar);
-                task.addHoursLog(line);
-                taskManager.addTask(task);
+                // if new project then add it to the projectsDB
+                project = new Project(choice, true);
+                project.addTitleBar(titleBar);
+                project.addHoursLog(line);
+                projectManager.addProject(project);
             }
         }
-        taskManager.saveToFile();
+        projectManager.saveToFile();
     }
     console.log("Loaded ", count, " lines.");
 }

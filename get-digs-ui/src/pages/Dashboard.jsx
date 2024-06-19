@@ -1,11 +1,11 @@
-import {ListContainerTasks} from "../components/ListContainerTasks";
+import {ListContainerProjects} from "../components/ListContainerProjects";
 
 export function Dashboard() {
     return (
         <section className="section my-2">
             <div className="content">
-                <h1>Tasks</h1>
-                <ListContainerTasks/>
+                <h1>Projects</h1>
+                <ListContainerProjects/>
             </div>
         </section>
     )
