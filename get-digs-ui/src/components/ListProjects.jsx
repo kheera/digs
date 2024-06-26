@@ -1,12 +1,12 @@
 import { useState, useEffect } from 'react';
-import { ProjectComponent } from './ProjectComponent';
-import { AddNewProjectComponent } from './AddNewProjectComponent';
+import { ShowProjectBrief } from './ShowProjectBrief';
+import { AddNewProject } from './AddNewProject';
 
 const global = {
     apiUri: process.env.REACT_APP_GET_DIGS_API_URI
 };
 
-export function ListContainerProjects() {
+export function ListProjects() {
     const [projects, setProjects] = useState([]);
 
     useEffect(() => {
@@ -26,12 +26,12 @@ export function ListContainerProjects() {
                 style={{display: showAddNewProject ? 'none' : 'block'}}
                 className="button is-primary" onClick={() => setShowAddNewProject(true)}>
                 New Project</button>
-            <AddNewProjectComponent show={showAddNewProject} setShow={setShowAddNewProject} setProjects={setProjects}/>
-            <div className="project-list">
+            <AddNewProject show={showAddNewProject} setShow={setShowAddNewProject} setProjects={setProjects}/>
+            <ul className="project-list">
                 {projects.map(project => (
-                    <ProjectComponent key={project.id} project={project}/>
+                    <ShowProjectBrief key={project.id} project={project}/>
                 ))}
-            </div>
+            </ul>
         </div>
     );
 }

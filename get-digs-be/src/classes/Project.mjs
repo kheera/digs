@@ -45,7 +45,7 @@ export class Project {
         }
 
         this.timers.push({
-            id: 'tsk-' + randomlyCreatedAlphaNumericTimeSortableId(),
+            id: 'tmr-' + randomlyCreatedAlphaNumericTimeSortableId(),
             startTime: startTime
         });
         // return the timers

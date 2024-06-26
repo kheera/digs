@@ -164,7 +164,14 @@ export class ProjectManager {
             // loop through timers to make sure they each have an id
             for (let timer of project.timers) {
                 if (!timer.id) {
-                    timer.id = 'tsk-' + randomlyCreatedAlphaNumericTimeSortableId();
+                    timer.id = 'tmr-' + randomlyCreatedAlphaNumericTimeSortableId();
+                }
+            }
+
+            // if any timers have an id that starts with tsk then we need to change it to tmr
+            for (let timer of project.timers) {
+                if (timer.id.startsWith('tsk')) {
+                    timer.id = 'tmr' + timer.id.slice(3);
                 }
             }
 

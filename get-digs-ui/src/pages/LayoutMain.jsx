@@ -1,14 +1,14 @@
 import { Outlet } from 'react-router-dom';
-import {HeroSection} from "../components/HeroSection";
+import {ShowHeroSection} from "../components/ShowHeroSection";
 
 export function LayoutMain() {
     return (
         <div>
-            <HeroSection/>
+            <ShowHeroSection/>
             <header className="navbar is-light">
                 <div className="navbar-brand">
                     <a className="navbar-item" href="/">
-                        <h1 className="title">DIGS</h1>
+                        <h1 className="title hover ">DIGS</h1>
                     </a>
                 </div>
             </header>

@@ -1,22 +1,32 @@
 import { useEffect, useState } from 'react';
-import { AddNewGoalComponent} from "./AddNewGoalComponent";
+import { AddNewGoal} from "./AddNewGoal";
+import { ShowGoal } from "./ShowGoal";
 
 export function ListGoals({ project }) {
-    const [goals, setGoals] = useState(['asdf', 'fasdf']);
+    const [goals, setGoals] = useState([]);
     const [goalShowCount, setGoalShowCount] = useState(5);
-    const [showNewGoalComponent, setShowNewGoalComponent] = useState(false);
 
     useEffect(() => {
+        let goals = [];
         // if goals is an array
         if (Array.isArray(project.goals)) {
-            setGoals(project.goals);
-            console.log("setting goals for project ", project.title);
-            console.log("The new goals are: ", project.goals);
-        } else if (typeof project.goals === 'object') {
-            // turn into an array
-            setGoals(Object.values(project.goals));
+            goals = project.goals;
+        } else {
+            goals = Object.values(project.goals);
         }
+        sortGoals(goals);
+        setGoals(goals);
+
     }, [project]);
+
+    const sortGoals = (goals) => {
+        goals.sort((a, b) => a.id < b.id ? 1 : -1);
+    }
+
+    const updateGoals = (newGoals) => {
+        sortGoals(newGoals);
+        setGoals(newGoals);
+    }
 
     const showMoreGoals = (count) => {
         setGoalShowCount(goalShowCount + count);
@@ -26,20 +36,11 @@ export function ListGoals({ project }) {
         <div className="card-header">
             <p className="card-header-title">Goals</p>
         </div>
-        <button className="button is-primary" onClick={() => setShowNewGoalComponent(true)}>Add Goal</button>
-        <AddNewGoalComponent
-            show={showNewGoalComponent}
-            setShow={setShowNewGoalComponent}
-            setGoals={setGoals}
-            project={project}
-        />
-
         <div className="card-content">
+
+
             {goals.slice(0, goalShowCount).map(goal => (
-                <div className="tags has-addons" key={goal.id}>
-                    <span className="tag">{ goal.description }</span>
-                    <span><i className="fas fa-circle-nodes"></i></span>
-                </div>
+                <ShowGoal key={goal.id} goal={goal} />
             ))}
         </div>
         {goals.length > goalShowCount && (

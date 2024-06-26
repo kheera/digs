@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { BackendApi } from "../services/BackendApi";
 
-export function AddNewProjectComponent({ show, setShow, setProjects }) {
+export function AddNewProject({ show, setShow, setProjects }) {
     const [project, setProject] = useState({
         title: ''
     });

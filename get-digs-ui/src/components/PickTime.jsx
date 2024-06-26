@@ -1,9 +1,15 @@
-import {useState} from "react";
+import {useState, useEffect} from "react";
 import {formatLocalDateTime} from "./formatLocalDateTime";
 
-export function TimePicker({ dateTime, updateTime }) {
+export function PickTime({ dateTime, updateTime }) {
     const [myDateTime, setMyDateTime] = useState(formatLocalDateTime(dateTime));
     const [currentYear, setCurrentYear] = useState(new Date().getFullYear());
+
+    // update my date time if dateTime changes
+    useEffect(() => {
+        setMyDateTime(formatLocalDateTime(dateTime));
+    }, [dateTime]);
+
 
     // check if the date time is a valid date
     function isValidDateTime(dateTime) {

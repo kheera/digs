@@ -1,5 +1,5 @@
 // just return a div
-export function HeroSection() {
+export function ShowHeroSection() {
     return (
         <section className="hero is-primary">
             <div className="hero-body">

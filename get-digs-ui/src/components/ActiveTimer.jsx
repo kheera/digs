@@ -1,7 +1,23 @@
 import { useEffect, useState } from "react";
 
-export function ActiveTimer({ startTime }) {
+export function ActiveTimer({ timer, project }) {
     const [timeElapsed, setTimeElapsed] = useState(0);
+
+    const listOfFunTimePassingEmojis = [
+        '🤪',
+        '😜',
+        '😎',
+        '🤩',
+        '🥳',
+        '🎉',
+        '🤓',
+        '🥱',
+        '😴',
+        '😵',
+        '🤢',
+        '🎉🎉',
+        '🛑'
+    ];
 
     /**
      * Convert number of seconds into hour, minute, and seconds
@@ -30,18 +46,24 @@ export function ActiveTimer({ startTime }) {
     }
 
     useEffect(() => {
+        const startTime = timer.startTime;
         const interval = setInterval(() => {
             const currentTime = new Date();
             const st = new Date(startTime);
             const elapsedTime = Math.floor((currentTime - st) / 1000);
             setTimeElapsed(elapsedTime);
-            // update webpage title with time elapsed
-            // document.title = `DIGS: ${formatTime(elapsedTime)} seconds`;
-            document.title = `DIGS: ${formatTime(elapsedTime)}`;
+            let emojiIndex = Math.floor(elapsedTime / 60 / 10);
+            // if we're out of emojis just keep the last one
+            if (emojiIndex >= listOfFunTimePassingEmojis.length) {
+                emojiIndex = listOfFunTimePassingEmojis.length - 1;
+            }
+
+            const selectedEmoji = listOfFunTimePassingEmojis[emojiIndex];
+            document.title = `${selectedEmoji} ${formatTime(elapsedTime)} ${project.title}`
 
         }, 1000);
         return () => clearInterval(interval);
-    }, [startTime]);
+    }, [timer]);
 
 
     return (

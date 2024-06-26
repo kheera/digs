@@ -25,7 +25,7 @@ export function BackendApi() {
         },
         updateProjectTitle: async function(id, title) {
             console.log("Sending query to update project: ", id, title);
-            return fetch(`${global.apiUri}/projects/${id}/title`, {
+            return fetch(`${global.apiUri}/project/${id}/title`, {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json'

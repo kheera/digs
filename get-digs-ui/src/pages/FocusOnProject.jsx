@@ -1,4 +1,4 @@
-import {ProjectDetailComponent} from "../components/ProjectDetailComponent";
+import {ShowProject} from "../components/ShowProject";
 import {useParams} from "react-router-dom";
 import {BackendApi} from "../services/BackendApi";
 import {useState, useEffect} from "react";
@@ -21,7 +21,7 @@ export function FocusOnProject() {
     return (
         <section className="section my-2">
             <div className="content">
-                <ProjectDetailComponent project={project}/>
+                <ShowProject project={project}/>
             </div>
         </section>
     )

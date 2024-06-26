@@ -2,8 +2,10 @@ import { useEffect, useState } from 'react';
 import {formatLocalDateTime} from "./formatLocalDateTime";
 import {ActiveTimer} from "./ActiveTimer";
 import {BackendApi} from "../services/BackendApi";
-import {TimePicker} from "./TimePicker";
-import {TimeDurationPicker} from "./TimeDurationPicker";
+import {PickTime} from "./PickTime";
+import {PickTimeDuration} from "./PickTimeDuration";
+import {formatEndTime} from "./formatEndTime";
+import {formatSecondsAsDuration} from "./formatSecondsAsDuration";
 
 export function ShowTimer({ project, timer, setTimers }) {
 
@@ -25,42 +27,12 @@ export function ShowTimer({ project, timer, setTimers }) {
 
     function updateTimer(timer) {
         console.log("Will update with new timer: ", timer);
+        BackendApi().updateTimer(project.id, timer)
+            .then(res => {
+                setTimers(res.timers);
+                setEditEndTime(false);
+            });
     }
-
-    function formatEndTime(startTime, duration) {
-        const startDateTime = new Date(startTime);
-        const endDateTime = new Date(startDateTime.getTime() + duration * 1000);
-        return formatLocalDateTime(endDateTime);
-    }
-
-    /**
-     * Convert number of seconds into hour, minute, and seconds
-     * @param {number} secs number of seconds
-     * @returns {string} returns the time in HH:MM:SS format
-     */
-    function formatTime(secs) {
-        let formatter = new Intl.NumberFormat('en-US', {
-            minimumIntegerDigits: 1,
-            useGrouping: false
-        })
-
-        let hours = formatter.format(Math.floor(secs / 3600));
-        let minutes = formatter.format(Math.floor((secs % 3600) / 60));
-
-        let time = '';
-        if (hours !== '0') {
-            time += hours + 'h ';
-        }
-        if (minutes !== '0') {
-            time += minutes + 'm ';
-        }
-        // if the string is empty show 0 seconds
-        if (time === '') {
-            time = '0s';
-        }
-        return time;
-    }
-
 
     // handle stop timer
     const handleStopTimer = (timer) => {
@@ -89,7 +61,7 @@ export function ShowTimer({ project, timer, setTimers }) {
                 </span>
             </button>
             {editStartTime ? (
-                <TimePicker
+                <PickTime
                     dateTime={startTime}
                     updateTime={updateStartTime}
                 />
@@ -99,21 +71,26 @@ export function ShowTimer({ project, timer, setTimers }) {
             {
                 timer.duration ? (
                     editEndTime ? (
-                        <TimeDurationPicker
+                        <PickTimeDuration
+                            project={project}
                             timer={timer}
-                            updateTime={updateTimer}
+                            updateTimer={updateTimer}
                         />
                     ) : (
                         <span onClick={() => setEditEndTime(!editEndTime)}>
                             <span className="tag"> - {formatEndTime(timer.startTime, timer.duration)}</span>
-                            <span className="tag">{formatTime(timer.duration)}</span>
+                            <span className="tag">{formatSecondsAsDuration(timer.duration)}</span>
                         </span>
                     )
-                ) : (
-                    <button className={"button is-family-secondary"}
-                            onClick={() => handleStopTimer(timer)}>Stop <span
-                        className="tag"><ActiveTimer startTime={timer.startTime}/></span>
-                    </button>
+                ) : (<>
+                        <ActiveTimer
+                            project={project}
+                            timer={timer}/>
+                        <button className={"button is-family-secondary"}
+                                onClick={() => handleStopTimer(timer)}>Stop
+                        </button>
+                    </>
+
                 )
             }
         </div>

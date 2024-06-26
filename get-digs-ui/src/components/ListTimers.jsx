@@ -1,27 +1,22 @@
-import { BackendApi } from "../services/BackendApi";
 import { useEffect, useState } from "react";
-import { ActiveTimer } from "./ActiveTimer";
-import {formatLocalDateTime} from "./formatLocalDateTime";
-import {TimePicker} from "./TimePicker";
-import {ShowTimer} from "./ShowTimer";
+import { ShowTimer } from "./ShowTimer";
+import { AddActiveTimer } from "./AddActiveTimer";
 
 // display timers in a card
 export function ListTimers({ project }) {
     // get timers from the project
-    const [timers, setTimers] = useState(project.timers);
-    const [startTime, setStartTime] = useState(new Date());
+    const [timers, setTimers] = useState([]);
+    function setSortedTimers(timers) {
+        const timersInReverseTimeOrder = timers.sort((a, b) => {
+            return new Date(b.startTime) - new Date(a.startTime);
+        });
+        setTimers(timersInReverseTimeOrder);
+    }
+
     // if project changes
     useEffect(() => {
-        setTimers(project.timers);
+        setSortedTimers(project.timers)
     }, [project]);
-
-    // handle start timer button
-    const handleStartTimer = () => {
-        BackendApi().startTimer(project.id)
-            .then(res => {
-                setTimers(res.timers);
-            });
-    };
 
     return (
         <div className="card">
@@ -29,13 +24,16 @@ export function ListTimers({ project }) {
                 <p className="card-header-title">Timers</p>
             </header>
             <div className="card-content">
-                <button className="button is-primary" onClick={handleStartTimer}>Start Timer</button>
+                <AddActiveTimer
+                    project={project}
+                    setTimers={setSortedTimers}
+                />
                 {timers.map(timer => (
                     <ShowTimer
                         key={timer.id}
                         project={project}
                         timer={timer}
-                        setTimers={setTimers}
+                        setTimers={setSortedTimers}
                     />
                 ))}
             </div>
