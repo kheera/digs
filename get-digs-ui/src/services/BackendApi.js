@@ -18,6 +18,12 @@ export function BackendApi() {
             })
                 .then(res => res.json());
         },
+        deleteProject: async function(id) {
+            return fetch(`${global.apiUri}/project/${id}`, {
+                method: 'DELETE'
+            })
+                .then(res => res.json());
+        },
         getProject: async function(id) {
             console.trace("Getting project");
             return fetch(`${global.apiUri}/project/${id}`)

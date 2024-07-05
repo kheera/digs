@@ -1,9 +1,5 @@
 import {useEffect, useState} from "react";
-import { ListTimers } from "./ListTimers";
-import { ListGoals } from "./ListGoals";
-import { ShowGoal } from "./ShowGoal";
 import { ShowProjectHeader } from "./ShowProjectHeader";
-import { ShowTimer } from "./ShowTimer";
 import { AddActiveTimer } from "./AddActiveTimer";
 import { ShowIntermingledItem } from "./ShowIntermingledItem";
 import {AddNewGoal} from "./AddNewGoal";

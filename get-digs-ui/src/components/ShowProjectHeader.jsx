@@ -1,5 +1,6 @@
 import {useEffect, useState} from "react";
 import {BackendApi} from "../services/BackendApi";
+import {ShowGearMenu} from "./ShowGearMenu";
 
 export function ShowProjectHeader({project}) {
     const [isEditing, setIsEditing] = useState(false);
@@ -9,9 +10,25 @@ export function ShowProjectHeader({project}) {
         BackendApi().updateProjectTitle(project.id, title);
     };
 
+    // function to delete project
+    const handleDeleteProject = () => {
+        console.log("Deleting project", project.id);
+        BackendApi().deleteProject(project.id)
+            .then(res => {
+                console.log("Deleted project", res);
+                window.location.href = '/';
+            });
+    };
+
+    const menuItems = [{
+        name: '🗑️ Delete',
+        confirm: true,
+        action: () => handleDeleteProject()
+    }]
+
 
     return (
-        <header className="show-hidden-action card-header is-hoverable is-flex">
+        <header className="show-hidden-action card-header is-hoverable is-flex" style={{ height: '50px'}}>
             {isEditing ? (
                 <input
                     className="input"
@@ -29,12 +46,7 @@ export function ShowProjectHeader({project}) {
                                 <i className="fas fa-pencil-alt"></i>
                             </span>
                     </div>
-                    <div
-                        className="card-header-title is-flex is-justify-content-flex-end is-inline-flex no-margin-block-end">
-                            <span className="icon flex">
-                                <i className="fas fa-cog"></i>
-                            </span>
-                    </div>
+                    <ShowGearMenu menuItems={menuItems}/>
                 </>
             )}
         </header>

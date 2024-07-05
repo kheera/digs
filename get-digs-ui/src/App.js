@@ -4,6 +4,7 @@ import './App.css';
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import { Dashboard } from './pages/Dashboard';
 import { FocusOnProject } from './pages/FocusOnProject';
+import { LayoutFocusOnProject } from './pages/LayoutFocusOnProject';
 import { LayoutMain } from './pages/LayoutMain';
 
 function App() {
@@ -12,7 +13,9 @@ function App() {
       <Routes>
         <Route path="/" element={<LayoutMain />}>
           <Route index element={<Dashboard />} />
-          <Route path="project/:id" element={<FocusOnProject />} />
+        </Route>
+          <Route path="project/:id" element={<LayoutFocusOnProject />}>
+          <Route index element={<FocusOnProject />} />
         </Route>
       </Routes>
     </Router>

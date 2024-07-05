@@ -85,6 +85,10 @@ export class ProjectManager {
         this.projects.push(project);
     }
 
+    deleteProject(id) {
+        this.projects = this.projects.filter(project => project.id !== id);
+    }
+
     getProjectByTitle(title) {
         return this.projects.find(project => project.title === title);
     }

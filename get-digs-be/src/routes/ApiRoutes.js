@@ -25,6 +25,16 @@ router.post('/projects', (req, res) => {
     res.json(projectManager.getProjects());
 })
 
+// api routes to delete a project
+router.delete('/project/:id', (req, res) => {
+    let projectId = req.params.id;
+    let projectManager = new ProjectManager();
+    projectManager.loadFromFile();
+    projectManager.deleteProject(projectId);
+    projectManager.saveToFile();
+    res.json(projectManager.getProjects());
+})
+
 let projectRouter = express.Router({ mergeParams: true });
 projectRouter.get('/', (req, res) => {
     let projectId = req.params.id;

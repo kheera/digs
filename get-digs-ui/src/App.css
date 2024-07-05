@@ -25,3 +25,20 @@ a:hover {
 .left-align-button {
     justify-content: flex-start;
 }
+
+.menu .menu-item {
+    user-select: none;
+}
+
+/* This will style your dropdown items on hover */
+.menu .menu-item:hover {
+    background-color: #007bff;
+    color: #FFFAFA;
+    cursor: pointer;
+}
+
+/* This will style your dropdown items when active (clicked) */
+.menu .menu-item:active {
+    background-color: #0056b3;
+    color: #FFFAFA;
+}

@@ -87,7 +87,7 @@ export function ShowTimer({ project, timer, setTimers }) {
                             project={project}
                             timer={timer}/>
                         <button className={"button is-family-secondary"}
-                                onClick={() => handleStopTimer(timer)}>Stop
+                                onClick={() => handleStopTimer(timer)}>Stop <span style={{color: 'red'}}>🕗</span>
                         </button>
                     </>
 
