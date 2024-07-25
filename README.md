@@ -1,10 +1,15 @@
 # Get Digs: Dynamic Interactive Goal Setting
 
 [x] Set goals
+
 [ ] Add goal management, merge, delete, etc
+
 [x] Track progress
+
 [x] Document difficulties
+
 [ ] Create billing reports
+
 [ ] Export billing reports to invoice systems
 
 ## How to:
